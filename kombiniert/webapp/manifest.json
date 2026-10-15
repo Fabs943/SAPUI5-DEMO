@@ -1,0 +1,128 @@
+{
+    "_version": "1.60.0",
+    "sap.app": {
+        "id": "demo.orders.combined",
+        "type": "application",
+        "i18n": {
+            "bundleName": "demo.orders.combined.i18n.i18n",
+            "supportedLocales": [""],
+            "fallbackLocale": ""
+        },
+        "applicationVersion": { "version": "1.0.0" },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "/northwind/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0",
+                    "annotations": ["annotation"]
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": { "localUri": "annotations/annotation.xml" }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.136.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.fe.templates": {},
+                "sap.fe.core": {},
+                "sap.fe.macros": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "demo.orders.combined.i18n.i18n",
+                    "supportedLocales": [""],
+                    "fallbackLocale": ""
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                { "pattern": ":?query:", "name": "OrdersList", "target": "OrdersList" },
+                { "pattern": "Orders({key}):?query:", "name": "OrdersObjectPage", "target": "OrdersObjectPage" },
+                { "pattern": "Scan:?query:", "name": "ScanPage", "target": "ScanPage" }
+            ],
+            "targets": {
+                "OrdersList": {
+                    "type": "Component",
+                    "id": "OrdersList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Orders",
+                            "variantManagement": "Page",
+                            "initialLoad": "Enabled",
+                            "navigation": {
+                                "Orders": { "detail": { "route": "OrdersObjectPage" } }
+                            },
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": { "type": "ResponsiveTable" },
+                                    "actions": {
+                                        "ScanMode": {
+                                            "press": "demo.orders.combined.ext.ListReportActions.openScanMode",
+                                            "text": "{i18n>scanModeButton}",
+                                            "requiresSelection": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "OrdersObjectPage": {
+                    "type": "Component",
+                    "id": "OrdersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Orders",
+                            "editableHeaderContent": false
+                        }
+                    }
+                },
+                "ScanPage": {
+                    "type": "Component",
+                    "id": "ScanPage",
+                    "name": "sap.fe.core.fpm",
+                    "options": {
+                        "settings": {
+                            "viewName": "demo.orders.combined.ext.scan.Scan",
+                            "contextPath": "/Orders"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": { "compact": true, "cozy": true }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}

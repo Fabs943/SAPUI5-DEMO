@@ -1,0 +1,24 @@
+# Offline-Modus: Daten kommen aus ../mockdata (kein Internet nötig)
+specVersion: "4.0"
+metadata:
+  name: orders-kombiniert
+type: application
+framework:
+  name: SAPUI5
+  version: "1.136.23"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.fe.templates
+    - name: themelib_sap_horizon
+server:
+  customMiddleware:
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        mountPath: /
+        services:
+          - urlPath: /northwind
+            metadataPath: ../mockdata/metadata.xml
+            mockdataPath: ../mockdata/data
+            generateMockData: false

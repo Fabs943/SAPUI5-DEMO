@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 
-const apps = { "Fiori Elements": "fiori-elements/webapp", "Freestyle": "freestyle/webapp" };
+const apps = { "Fiori Elements": "fiori-elements/webapp", "Freestyle": "freestyle/webapp", "Kombiniert (FE + Scan-Seite)": "kombiniert/webapp" };
 
 function category(file) {
     if (file.endsWith(".js")) return "JavaScript (Controller, Formatter, Component)";
@@ -50,6 +50,5 @@ console.log(`| | ${names.join(" | ")} |`);
 console.log(`|---|${names.map(() => "---").join("|")}|`);
 for (const c of cats) console.log(`| ${c} | ${names.map((n) => cell(result[n].cats[c])).join(" | ")} |`);
 console.log(`| **Gesamt** | ${names.map((n) => `**${cell(result[n])}**`).join(" | ")} |`);
-const jsFe = result["Fiori Elements"].cats["JavaScript (Controller, Formatter, Component)"]?.lines ?? 0;
-const jsFs = result["Freestyle"].cats["JavaScript (Controller, Formatter, Component)"]?.lines ?? 0;
-console.log(`\nEigener JavaScript-Code: Fiori Elements ${jsFe} Zeilen, Freestyle ${jsFs} Zeilen.`);
+const js = (n) => result[n].cats["JavaScript (Controller, Formatter, Component)"]?.lines ?? 0;
+console.log(`\nEigener JavaScript-Code: ${names.map((n) => `${n} ${js(n)} Zeilen`).join(", ")}.`);

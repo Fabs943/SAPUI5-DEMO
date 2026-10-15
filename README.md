@@ -1,6 +1,6 @@
 # Fiori ist nicht gleich Fiori
 
-**Eine Anforderung, zwei Umsetzungen: SAP Fiori Elements und SAPUI5 Freestyle**
+**Eine Anforderung, zwei Umsetzungen: SAP Fiori Elements und SAPUI5 Freestyle – plus eine Kombination aus beiden in einer App**
 
 Beide Apps sehen für den Anwender praktisch gleich aus. Der Unterschied liegt darin, **wie viel selbst gebauter Code** dahintersteckt, und damit darin, was wir **dauerhaft warten, testen und aktualisieren** müssen.
 
@@ -35,7 +35,15 @@ cd freestyle
 npm install
 npm start -- --port 8081
 npm run start-mock -- --port 8081
+
+# Kombiniert (Fiori Elements + Freestyle-Seite in einer App) → drittes Terminal
+cd kombiniert
+npm install
+npm start -- --port 8082
+npm run start-mock -- --port 8082
 ```
+
+> **Windows PowerShell 5:** `&&` funktioniert dort nicht – Befehle einzeln eingeben.
 
 > Tipp für die Präsentation: Vorher einmal `npm install` und `npm start` ausführen (lädt SAPUI5 aus npm). **`start-mock` ist die sichere Variante**, wenn das WLAN im Besprechungsraum unzuverlässig ist.
 
@@ -43,21 +51,50 @@ npm run start-mock -- --port 8081
 
 ## Die Zahlen (gemessen mit `node compare.mjs`)
 
-| | Fiori Elements | Freestyle |
-|---|---|---|
-| Annotationen (UI-Beschreibung) | 1 Datei / 235 Zeilen | – |
-| **JavaScript (Controller, Formatter, Component)** | **1 Datei / 8 Zeilen** | **6 Dateien / 246 Zeilen** |
-| XML-Views & Fragmente | – | 6 Dateien / 259 Zeilen |
-| i18n-Texte | 1 Datei / 2 Zeilen | 1 Datei / 39 Zeilen |
-| index.html | 1 Datei / 23 Zeilen | 1 Datei / 22 Zeilen |
-| manifest.json | 1 Datei / 107 Zeilen | 1 Datei / 85 Zeilen |
-| **Gesamt** | **5 Dateien / 375 Zeilen** | **15 Dateien / 651 Zeilen** |
+| | Fiori Elements | Freestyle | Kombiniert (FE + Scan-Seite) |
+|---|---|---|---|
+| Annotationen (UI-Beschreibung) | 1 Datei / 235 Zeilen | – | 1 Datei / 235 Zeilen |
+| **JavaScript (Controller, Formatter, Component)** | **1 Datei / 8 Zeilen** | **6 Dateien / 246 Zeilen** | **3 Dateien / 85 Zeilen** |
+| XML-Views & Fragmente | – | 6 Dateien / 259 Zeilen | 1 Datei / 33 Zeilen |
+| i18n-Texte | 1 Datei / 2 Zeilen | 1 Datei / 39 Zeilen | 1 Datei / 15 Zeilen |
+| index.html | 1 Datei / 23 Zeilen | 1 Datei / 22 Zeilen | 1 Datei / 23 Zeilen |
+| manifest.json | 1 Datei / 107 Zeilen | 1 Datei / 85 Zeilen | 1 Datei / 128 Zeilen |
+| **Gesamt** | **5 Dateien / 375 Zeilen** | **15 Dateien / 651 Zeilen** | **8 Dateien / 519 Zeilen** |
 
 So sind die Zahlen zu lesen:
 
 - **Die Zeilenzahl ist nicht der Punkt, sondern die Art der Zeilen.** Die 235 Zeilen bei Fiori Elements sind *deklarativ*: „Zeige Feld X mit Label Y“. Es gibt keine Logik, die kaputtgehen kann. Die 505 Zeilen Views und JavaScript bei Freestyle sind **eigener Programmcode** mit Event-Handlern, Filterlogik, Datumsberechnung, Dialog-Handling und Navigation.
 - **Fiori Elements hat 8 Zeilen JavaScript, Freestyle 246.** Jede dieser Zeilen müssen wir testen, reviewen, dokumentieren und bei jedem UI5-Upgrade prüfen.
 - Die Annotationen sind hier bewusst als XML geschrieben, weil Northwind ein fremder Service ist. **Bei RAP liegen sie als CDS-Annotationen direkt im Backend** und sind deutlich kompakter. Die UI-Schicht ist dann praktisch leer.
+
+---
+
+## Eine App, mehrere Technologien: `kombiniert/`
+
+Nicht Entweder-oder: Mit dem **Flexible Programming Model (FPM)** kann eine Fiori-Elements-App **eigene Freestyle-Seiten enthalten** – eine App, ein Einstieg, kein Springen über das Launchpad.
+
+| Liste (Fiori Elements) mit Button „Scan-Modus“ | Scan-Seite (Freestyle) in derselben App |
+|---|---|
+| ![Kombiniert Liste](docs/kombiniert-liste.png) | ![Kombiniert Scan](docs/kombiniert-scan.png) |
+
+```
+Eine App (eine manifest.json, ein Deployment)
+├── List Report      ← Fiori Elements (Annotationen)
+│     └── Aktion „Scan-Modus“  ← 10 Zeilen JavaScript
+├── Object Page      ← Fiori Elements (Annotationen)
+└── Scan-Seite       ← Freestyle (eigene View + Controller)
+      └── Positionen-Tabelle ← Building Block aus der Annotation UI.LineItem
+```
+
+**Ablauf in der Demo:** Liste → „Scan-Modus“ → Bestellnummer scannen (Handheld-Scanner tippt die Nummer und sendet Enter) → Bestellung groß anzeigen → „Nächste Bestellung“ (Fokus springt zurück ins Scan-Feld) oder „Details öffnen“ (zurück in die Fiori-Elements-Detailseite).
+
+Zum Ausprobieren ohne Scanner: Nummer eintippen (z. B. `10401`) und Enter drücken.
+
+**Was man dazu wissen sollte:**
+- Freestyle nur dort, wo nötig – Liste und Detail bleiben Fiori Elements. Eigener Code: **85 Zeilen** statt 246.
+- Die Positionen-Tabelle auf der Scan-Seite ist ein **Building Block**: Sie kommt aus derselben Annotation wie auf der Detailseite und wird nicht nachprogrammiert.
+- Der Freestyle-Teil ist trotzdem eigener Code mit eigener Wartung, und **die ganze App hängt an einer UI5-Version**.
+- Die Scan-Seite ist über `#/Scan` direkt aufrufbar – ein Handheld kann also direkt dort starten (eigene Kachel).
 
 ---
 
@@ -154,6 +191,11 @@ fiori-elements/          Fiori Elements (List Report + Object Page)
     annotations/annotation.xml   ← die komplette UI
     Component.js                 ← 8 Zeilen, Standard
     manifest.json
+kombiniert/              Fiori Elements + eigene Freestyle-Seite (Flexible Programming Model)
+  webapp/
+    ext/ListReportActions.js     ← Aktion „Scan-Modus“ im List Report
+    ext/scan/Scan.view.xml       ← Freestyle-Seite
+    ext/scan/Scan.controller.js
 freestyle/               SAPUI5 Freestyle (gleiche Anforderung)
   webapp/
     controller/          App, Base, Worklist, Detail
@@ -161,5 +203,6 @@ freestyle/               SAPUI5 Freestyle (gleiche Anforderung)
     model/formatter.js
     manifest.json
 mockdata/                Metadaten + Beispieldaten für den Offline-Modus
-compare.mjs              Zählt Dateien/Zeilen beider Apps
+compare.mjs              Zählt Dateien/Zeilen aller drei Apps
+praesentation/           Präsentation für das IT-Management (PPTX)
 ```

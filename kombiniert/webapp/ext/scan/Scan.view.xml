@@ -1,0 +1,40 @@
+<!-- Freestyle-Seite innerhalb der Fiori-Elements-App (Flexible Programming Model, Custom Page) -->
+<mvc:View
+    controllerName="demo.orders.combined.ext.scan.Scan"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:macros="sap.fe.macros"
+    xmlns="sap.m">
+    <Page id="scanPage" title="{i18n>scanTitle}" showNavButton="true" navButtonPress=".onBackToList" class="sapUiSizeCozy">
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <Label text="{i18n>scanInputLabel}" labelFor="scanInput" design="Bold"/>
+                <!-- Handheld-Scanner "tippen" den Code ins Feld und senden Enter -> submit -->
+                <Input
+                    id="scanInput"
+                    type="Number"
+                    placeholder="{i18n>scanInputPlaceholder}"
+                    submit=".onScan"
+                    class="sapUiSmallMarginBottom"/>
+                <MessageStrip id="scanMessage" visible="false" showIcon="true" class="sapUiSmallMarginBottom"/>
+
+                <!-- Zeigt die gescannte Bestellung - der Kontext wird im Controller gesetzt -->
+                <VBox id="orderPanel" visible="false">
+                    <Title text="{OrderID} · {Customer/CompanyName}" titleStyle="H1" wrapping="true" class="sapUiSmallMarginBottom"/>
+                    <HBox wrap="Wrap" class="sapUiSmallMarginBottom">
+                        <ObjectStatus title="{i18n>scanOrderDate}" text="{OrderDate}" class="sapUiMediumMarginEnd"/>
+                        <ObjectStatus title="{i18n>scanShipCity}" text="{ShipCity}, {ShipCountry}"/>
+                    </HBox>
+
+                    <!-- Building Block: Positionen-Tabelle kommt aus der Annotation UI.LineItem - nicht nachprogrammiert -->
+                    <macros:Table id="itemsTable" metaPath="Order_Details/@com.sap.vocabularies.UI.v1.LineItem" readOnly="true" enableExport="false" personalization="false"/>
+
+                    <HBox class="sapUiMediumMarginTop" wrap="Wrap">
+                        <Button text="{i18n>scanNext}" type="Emphasized" icon="sap-icon://bar-code" press=".onNext" width="16rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom"/>
+                        <Button text="{i18n>scanOpenDetails}" icon="sap-icon://detail-view" press=".onOpenDetails" width="16rem" class="sapUiSmallMarginBottom"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
