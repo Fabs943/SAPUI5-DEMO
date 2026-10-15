@@ -1,0 +1,50 @@
+[
+  {
+    "ProductID": 1,
+    "ProductName": "Chai",
+    "QuantityPerUnit": "10 boxes x 20 bags",
+    "UnitPrice": 18
+  },
+  {
+    "ProductID": 2,
+    "ProductName": "Chang",
+    "QuantityPerUnit": "24 - 12 oz bottles",
+    "UnitPrice": 19
+  },
+  {
+    "ProductID": 11,
+    "ProductName": "Queso Cabrales",
+    "QuantityPerUnit": "1 kg pkg.",
+    "UnitPrice": 21
+  },
+  {
+    "ProductID": 14,
+    "ProductName": "Tofu",
+    "QuantityPerUnit": "40 - 100 g pkgs.",
+    "UnitPrice": 23.25
+  },
+  {
+    "ProductID": 42,
+    "ProductName": "Singaporean Hokkien Fried Mee",
+    "QuantityPerUnit": "32 - 1 kg pkgs.",
+    "UnitPrice": 14
+  },
+  {
+    "ProductID": 51,
+    "ProductName": "Manjimup Dried Apples",
+    "QuantityPerUnit": "50 - 300 g pkgs.",
+    "UnitPrice": 53
+  },
+  {
+    "ProductID": 60,
+    "ProductName": "Camembert Pierrot",
+    "QuantityPerUnit": "15 - 300 g rounds",
+    "UnitPrice": 34
+  },
+  {
+    "ProductID": 72,
+    "ProductName": "Mozzarella di Giovanni",
+    "QuantityPerUnit": "24 - 200 g pkgs.",
+    "UnitPrice": 34.8
+  }
+]

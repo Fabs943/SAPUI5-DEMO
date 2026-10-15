@@ -1,0 +1,113 @@
+<mvc:View
+    controllerName="demo.orders.freestyle.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:uxap="sap.uxap"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m">
+    <!-- Object Page: in Fiori Elements = Annotationen UI.HeaderInfo, UI.Facets, UI.FieldGroup -->
+    <uxap:ObjectPageLayout id="detailPage" showFooter="false" upperCaseAnchorBar="false">
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:navigationActions>
+                    <Button icon="sap-icon://decline" type="Transparent" press=".onNavBack"/>
+                </uxap:navigationActions>
+                <uxap:expandedHeading>
+                    <Title text="{OrderID}" wrapping="true"/>
+                </uxap:expandedHeading>
+                <uxap:snappedHeading>
+                    <Title text="{OrderID}" wrapping="true"/>
+                </uxap:snappedHeading>
+                <uxap:expandedContent>
+                    <Text text="{Customer/CompanyName}"/>
+                </uxap:expandedContent>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:sections>
+            <uxap:ObjectPageSection titleUppercase="false" title="{i18n>sectionGeneral}">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <form:SimpleForm editable="false" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+                            <Label text="{i18n>colCustomer}"/>
+                            <Text text="{
+                                parts: ['Customer/CompanyName', 'CustomerID'],
+                                formatter: '.formatter.textWithId'
+                            }"/>
+                            <Label text="{i18n>fieldContactName}"/>
+                            <Text text="{Customer/ContactName}"/>
+                            <Label text="{i18n>colOrderDate}"/>
+                            <Text text="{OrderDate}"/>
+                            <Label text="{i18n>fieldRequiredDate}"/>
+                            <Text text="{RequiredDate}"/>
+                            <Label text="{i18n>colShippedDate}"/>
+                            <Text text="{ShippedDate}"/>
+                        </form:SimpleForm>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection titleUppercase="false" title="{i18n>sectionShipping}">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <form:SimpleForm editable="false" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3">
+                            <Label text="{i18n>fieldShipName}"/>
+                            <Text text="{ShipName}"/>
+                            <Label text="{i18n>fieldShipAddress}"/>
+                            <Text text="{ShipAddress}"/>
+                            <Label text="{i18n>fieldShipPostalCode}"/>
+                            <Text text="{ShipPostalCode}"/>
+                            <Label text="{i18n>colShipCity}"/>
+                            <Text text="{ShipCity}"/>
+                            <Label text="{i18n>colShipCountry}"/>
+                            <Text text="{ShipCountry}"/>
+                            <Label text="{i18n>colFreight}"/>
+                            <Text text="{Freight}"/>
+                        </form:SimpleForm>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection titleUppercase="false" title="{i18n>sectionItems}">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <Table
+                            id="itemsTable"
+                            updateFinished=".onItemsUpdateFinished"
+                            items="{
+                                path: 'Order_Details',
+                                parameters: {
+                                    $count: true,
+                                    $expand: 'Product($select=ProductName)'
+                                }
+                            }">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title id="itemsTableHeader" text="{i18n>sectionItems}" level="H3"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column><Text text="{i18n>colProduct}"/></Column>
+                                <Column hAlign="End"><Text text="{i18n>colUnitPrice}"/></Column>
+                                <Column hAlign="End"><Text text="{i18n>colQuantity}"/></Column>
+                                <Column hAlign="End"><Text text="{i18n>colDiscount}"/></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{
+                                            parts: ['Product/ProductName', 'ProductID'],
+                                            formatter: '.formatter.textWithId'
+                                        }"/>
+                                        <Text text="{UnitPrice}"/>
+                                        <Text text="{Quantity}"/>
+                                        <Text text="{Discount}"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

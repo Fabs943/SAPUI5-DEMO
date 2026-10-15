@@ -1,0 +1,72 @@
+[
+  {
+    "CustomerID": "ALFKI",
+    "CompanyName": "Alfreds Futterkiste",
+    "ContactName": "Maria Anders",
+    "City": "Berlin",
+    "Country": "Germany"
+  },
+  {
+    "CustomerID": "BLAUS",
+    "CompanyName": "Blauer See Delikatessen",
+    "ContactName": "Hanna Moos",
+    "City": "Mannheim",
+    "Country": "Germany"
+  },
+  {
+    "CustomerID": "BONAP",
+    "CompanyName": "Bon app'",
+    "ContactName": "Laurence Lebihan",
+    "City": "Marseille",
+    "Country": "France"
+  },
+  {
+    "CustomerID": "ERNSH",
+    "CompanyName": "Ernst Handel",
+    "ContactName": "Roland Mendel",
+    "City": "Graz",
+    "Country": "Austria"
+  },
+  {
+    "CustomerID": "FOLKO",
+    "CompanyName": "Folk och fä HB",
+    "ContactName": "Maria Larsson",
+    "City": "Bräcke",
+    "Country": "Sweden"
+  },
+  {
+    "CustomerID": "FRANK",
+    "CompanyName": "Frankenversand",
+    "ContactName": "Peter Franken",
+    "City": "München",
+    "Country": "Germany"
+  },
+  {
+    "CustomerID": "HANAR",
+    "CompanyName": "Hanari Carnes",
+    "ContactName": "Mario Pontes",
+    "City": "Rio de Janeiro",
+    "Country": "Brazil"
+  },
+  {
+    "CustomerID": "QUICK",
+    "CompanyName": "QUICK-Stop",
+    "ContactName": "Horst Kloss",
+    "City": "Cunewalde",
+    "Country": "Germany"
+  },
+  {
+    "CustomerID": "RATTC",
+    "CompanyName": "Rattlesnake Canyon Grocery",
+    "ContactName": "Paula Wilson",
+    "City": "Albuquerque",
+    "Country": "USA"
+  },
+  {
+    "CustomerID": "SAVEA",
+    "CompanyName": "Save-a-lot Markets",
+    "ContactName": "Jose Pavarotti",
+    "City": "Boise",
+    "Country": "USA"
+  }
+]

@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <ViewSettingsDialog confirm=".onSortConfirm">
+        <sortItems>
+            <ViewSettingsItem key="OrderID" text="{i18n>colOrderID}" selected="true"/>
+            <ViewSettingsItem key="CustomerID" text="{i18n>colCustomer}"/>
+            <ViewSettingsItem key="OrderDate" text="{i18n>colOrderDate}"/>
+            <ViewSettingsItem key="ShippedDate" text="{i18n>colShippedDate}"/>
+            <ViewSettingsItem key="ShipCity" text="{i18n>colShipCity}"/>
+            <ViewSettingsItem key="ShipCountry" text="{i18n>colShipCountry}"/>
+            <ViewSettingsItem key="Freight" text="{i18n>colFreight}"/>
+        </sortItems>
+    </ViewSettingsDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ausschnitt aus https://services.odata.org/V4/Northwind/Northwind.svc/$metadata
+     (nur die Entitäten, die die Demo braucht) - wird nur im Offline-/Mock-Modus verwendet -->
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="NorthwindModel" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Customer">
+        <Key><PropertyRef Name="CustomerID"/></Key>
+        <Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="5"/>
+        <Property Name="CompanyName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+        <Property Name="ContactName" Type="Edm.String" MaxLength="30"/>
+        <Property Name="City" Type="Edm.String" MaxLength="15"/>
+        <Property Name="Country" Type="Edm.String" MaxLength="15"/>
+        <NavigationProperty Name="Orders" Type="Collection(NorthwindModel.Order)" Partner="Customer"/>
+      </EntityType>
+      <EntityType Name="Order">
+        <Key><PropertyRef Name="OrderID"/></Key>
+        <Property Name="OrderID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="CustomerID" Type="Edm.String" MaxLength="5"/>
+        <Property Name="EmployeeID" Type="Edm.Int32"/>
+        <Property Name="OrderDate" Type="Edm.DateTimeOffset"/>
+        <Property Name="RequiredDate" Type="Edm.DateTimeOffset"/>
+        <Property Name="ShippedDate" Type="Edm.DateTimeOffset"/>
+        <Property Name="ShipVia" Type="Edm.Int32"/>
+        <Property Name="Freight" Type="Edm.Decimal" Precision="19" Scale="4"/>
+        <Property Name="ShipName" Type="Edm.String" MaxLength="40"/>
+        <Property Name="ShipAddress" Type="Edm.String" MaxLength="60"/>
+        <Property Name="ShipCity" Type="Edm.String" MaxLength="15"/>
+        <Property Name="ShipRegion" Type="Edm.String" MaxLength="15"/>
+        <Property Name="ShipPostalCode" Type="Edm.String" MaxLength="10"/>
+        <Property Name="ShipCountry" Type="Edm.String" MaxLength="15"/>
+        <NavigationProperty Name="Customer" Type="NorthwindModel.Customer" Partner="Orders">
+          <ReferentialConstraint Property="CustomerID" ReferencedProperty="CustomerID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Order_Details" Type="Collection(NorthwindModel.Order_Detail)" Partner="Order"/>
+      </EntityType>
+      <EntityType Name="Order_Detail">
+        <Key><PropertyRef Name="OrderID"/><PropertyRef Name="ProductID"/></Key>
+        <Property Name="OrderID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ProductID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="UnitPrice" Type="Edm.Decimal" Nullable="false" Precision="19" Scale="4"/>
+        <Property Name="Quantity" Type="Edm.Int16" Nullable="false"/>
+        <Property Name="Discount" Type="Edm.Single" Nullable="false"/>
+        <NavigationProperty Name="Order" Type="NorthwindModel.Order" Nullable="false" Partner="Order_Details">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Product" Type="NorthwindModel.Product" Nullable="false">
+          <ReferentialConstraint Property="ProductID" ReferencedProperty="ProductID"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Product">
+        <Key><PropertyRef Name="ProductID"/></Key>
+        <Property Name="ProductID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ProductName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+        <Property Name="QuantityPerUnit" Type="Edm.String" MaxLength="20"/>
+        <Property Name="UnitPrice" Type="Edm.Decimal" Precision="19" Scale="4"/>
+      </EntityType>
+    </Schema>
+    <Schema Namespace="ODataWebV4.Northwind.Model" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="NorthwindEntities">
+        <EntitySet Name="Customers" EntityType="NorthwindModel.Customer">
+          <NavigationPropertyBinding Path="Orders" Target="Orders"/>
+        </EntitySet>
+        <EntitySet Name="Orders" EntityType="NorthwindModel.Order">
+          <NavigationPropertyBinding Path="Customer" Target="Customers"/>
+          <NavigationPropertyBinding Path="Order_Details" Target="Order_Details"/>
+        </EntitySet>
+        <EntitySet Name="Order_Details" EntityType="NorthwindModel.Order_Detail">
+          <NavigationPropertyBinding Path="Order" Target="Orders"/>
+          <NavigationPropertyBinding Path="Product" Target="Products"/>
+        </EntitySet>
+        <EntitySet Name="Products" EntityType="NorthwindModel.Product"/>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

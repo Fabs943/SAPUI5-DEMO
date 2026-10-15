@@ -1,0 +1,25 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <!-- Wertehilfe: in Fiori Elements = 1 Annotation (Common.ValueList) -->
+    <TableSelectDialog
+        title="{i18n>customerVHTitle}"
+        multiSelect="true"
+        search=".onCustomerValueHelpSearch"
+        confirm=".onCustomerValueHelpConfirm"
+        items="{
+            path: '/Customers',
+            sorter: { path: 'CompanyName' }
+        }">
+        <columns>
+            <Column><Text text="{i18n>colCustomer}"/></Column>
+            <Column><Text text="{i18n>customerVHCompany}"/></Column>
+            <Column><Text text="{i18n>colShipCountry}"/></Column>
+        </columns>
+        <ColumnListItem>
+            <cells>
+                <Text text="{CustomerID}"/>
+                <Text text="{CompanyName}"/>
+                <Text text="{Country}"/>
+            </cells>
+        </ColumnListItem>
+    </TableSelectDialog>
+</core:FragmentDefinition>

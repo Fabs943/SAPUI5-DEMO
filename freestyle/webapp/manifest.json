@@ -1,0 +1,85 @@
+{
+    "_version": "1.60.0",
+    "sap.app": {
+        "id": "demo.orders.freestyle",
+        "type": "application",
+        "i18n": {
+            "bundleName": "demo.orders.freestyle.i18n.i18n",
+            "supportedLocales": [""],
+            "fallbackLocale": ""
+        },
+        "applicationVersion": { "version": "1.0.0" },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "/northwind/",
+                "type": "OData",
+                "settings": { "odataVersion": "4.0" }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "demo.orders.freestyle.view.App",
+            "type": "XML",
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.136.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {},
+                "sap.uxap": {},
+                "sap.ui.layout": {},
+                "sap.ui.export": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "demo.orders.freestyle.i18n.i18n",
+                    "supportedLocales": [""],
+                    "fallbackLocale": ""
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "type": "View",
+                "viewType": "XML",
+                "path": "demo.orders.freestyle.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "async": true,
+                "bypassed": { "target": "notFound" }
+            },
+            "routes": [
+                { "pattern": "", "name": "worklist", "target": "worklist" },
+                { "pattern": "Orders/{orderId}", "name": "detail", "target": "detail" }
+            ],
+            "targets": {
+                "worklist": { "id": "worklist", "name": "Worklist", "level": 1 },
+                "detail": { "id": "detail", "name": "Detail", "level": 2 },
+                "notFound": { "id": "notFound", "name": "NotFound", "transition": "show" }
+            }
+        },
+        "contentDensities": { "compact": true, "cozy": true }
+    }
+}
