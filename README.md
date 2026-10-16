@@ -27,8 +27,8 @@ Voraussetzung ist nur **Node.js** (ab Version 20).
 # Fiori Elements → http://localhost:8080
 cd fiori-elements
 npm install
-npm start              # live gegen Northwind
-npm run start-mock     # offline mit Mockdaten aus /mockdata
+npm start              
+npm run start-mock
 
 # SAPUI5 Freestyle → in zweitem Terminal, http://localhost:8081
 cd freestyle
